@@ -34,12 +34,13 @@ Message Process::Send(uint64_t recv_time)
         m_rc,
         recv_time
     );
+    return m;
 }
 
 void Process::Recv()
 {
     // Sort the message queue
-    std::sort(msg_queue.begin(), msg_queue.end(), compareMessage);
+    std::stable_sort(msg_queue.begin(), msg_queue.end(), compareMessage);
 
     // Process each message according to the earliest received message
     for(uint32_t message = 0; message < msg_queue.size(); ++ message)
