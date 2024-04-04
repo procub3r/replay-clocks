@@ -1,7 +1,8 @@
 #include "process.h"
 
-Process::Process(uint32_t nodeId) 
+Process::Process(uint32_t pid) 
 {
+    nodeId = pid;
     m_lc = 0;
     m_rc = ReplayClock(
         GetNodeLC(),
@@ -23,6 +24,8 @@ ReplayClock Process::GetReplayClock()
 
 uint64_t Process::GetNodeLC()
 {
+
+    std::cout << "Logical clock of process " << nodeId << ": " << m_lc << " = " << m_lc / INTERVAL << std::endl;
     return m_lc / INTERVAL;
 }
 
@@ -37,6 +40,11 @@ Message Process::Send(uint64_t recv_time)
     return m;
 }
 
+bool compareMessage(const Message& m1, const Message& m2)
+{
+    return m1.recv_time < m2.recv_time;
+}
+
 void Process::Recv()
 {
     // Sort the message queue
@@ -47,9 +55,6 @@ void Process::Recv()
     {
         if(msg_queue[message].recv_time < m_lc)
         {
-            
-            std::cout << "Message received on process " << nodeId << " from " << msg_queue[message].sender << std::endl;
-
             m_rc.Recv(msg_queue[message].m_rc, GetNodeLC());
 
             // Erase the message from the queue

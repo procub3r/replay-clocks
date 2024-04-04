@@ -23,36 +23,41 @@ Simulator::Simulator()
 void 
 Simulator::Start()
 {   
-    globalTime ++;
 
-    if( ++ microseconds >= packetInterval)
+    while(true)
     {
-        // Send a random message from process i to j
-        // First pick a random sending process
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(0, processes.size() - 1);
-        uint32_t sender_index = dis(gen);
+        globalTime ++;
 
-        // Second, pick a random receiving process
-        uint32_t receiver_index = dis(gen);
+        if( ++ microseconds >= packetInterval)
+        {
+            // Send a random message from process i to j
+            // First pick a random sending process
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<> dis(0, processes.size() - 1);
+            uint32_t sender_index = dis(gen);
 
-        // Create a message on the sender
-        std::cout << "Message sent from " << sender_index << " to " << receiver_index << std::endl;
-        Message m = processes[sender_index].Send(microseconds + DELTA);
+            // Second, pick a random receiving process
+            uint32_t receiver_index = dis(gen);
 
-        // Add message m to the queue of the receiver
-        processes[receiver_index].msg_queue.push_back(m);
+            // Create a message on the sender
+            Message m = processes[sender_index].Send(microseconds + DELTA);
 
-        // Reset the count of microseconds
-        microseconds = 0;
+            // Add message m to the queue of the receiver
+            processes[receiver_index].msg_queue.push_back(m);
+
+            // Reset the count of microseconds
+            microseconds = 0;
+        }
+
+        // On all processes, receive any outstanding messages
+        for (uint32_t process = 0; process < NUM_PROCS; ++ process)
+        {
+            processes[process].Recv();
+            processes[process].Tick(globalTime);
+        }
+
     }
-
-    // On all processes, receive any outstanding messages
-    for (uint32_t process = 0; process < NUM_PROCS; ++ process)
-    {
-        processes[process].Recv();
-        processes[process].Tick(globalTime);
-    }
+        
 
 }

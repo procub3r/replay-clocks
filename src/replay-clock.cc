@@ -57,6 +57,8 @@ ReplayClock::SendLocal(uint32_t node_hlc)
     // std::cout << "--------------------------SEND--------------------------" << std::endl;
     // PrintClock();
 
+    std::cout << node_hlc << "," << hlc << std::endl;
+
     uint32_t new_hlc = std::max(hlc, node_hlc);
     uint32_t new_offset = new_hlc - node_hlc;
 
@@ -124,15 +126,15 @@ void
 ReplayClock::Recv(ReplayClock m_ReplayClock, uint32_t node_hlc)
 {
 
-    // std::cout << "--------------------------RECV--------------------------" << std::endl;
+    std::cout << "--------------------------RECV--------------------------" << std::endl;
 
-    // std::cout << "--------------------------NODE CLOCK--------------------------" << std::endl;
+    std::cout << "--------------------------NODE CLOCK--------------------------" << std::endl;
 
-    // PrintClock();
+    PrintClock();
 
-    // std::cout << "--------------------------MESSAGE CLOCK--------------------------" << std::endl;
+    std::cout << "--------------------------MESSAGE CLOCK--------------------------" << std::endl;
 
-    // m_ReplayClock.PrintClock();
+    m_ReplayClock.PrintClock();
 
     uint32_t new_hlc = std::max(hlc, m_ReplayClock.hlc);
     new_hlc = std::max(new_hlc, node_hlc);
@@ -142,15 +144,15 @@ ReplayClock::Recv(ReplayClock m_ReplayClock, uint32_t node_hlc)
 
     a.Shift(new_hlc);
 
-    // std::cout << "--------------------------A SHIFTED CLOCK--------------------------" << std::endl;
+    std::cout << "--------------------------A SHIFTED CLOCK--------------------------" << std::endl;
 
-    // a.PrintClock();
+    a.PrintClock();
 
     b.Shift(new_hlc);
 
-    // std::cout << "--------------------------B SHIFTED CLOCK--------------------------" << std::endl;
+    std::cout << "--------------------------B SHIFTED CLOCK--------------------------" << std::endl;
 
-    // b.PrintClock();
+    b.PrintClock();
 
     a.MergeSameEpoch(b);
 
@@ -192,11 +194,11 @@ ReplayClock::Recv(ReplayClock m_ReplayClock, uint32_t node_hlc)
 
     offset_bitmap[nodeId] = 1;
 
-//     std::cout << "--------------------------FINAL CLOCK--------------------------" << std::endl;
+    // std::cout << "--------------------------FINAL CLOCK--------------------------" << std::endl;
 
-//     PrintClock();
+    // PrintClock();
 
-//     std::cout << "--------------------------RECV DONE!--------------------------" << std::endl;
+    // std::cout << "--------------------------RECV DONE!--------------------------" << std::endl;
 
 //     sleep(2);
 }
@@ -371,22 +373,24 @@ ReplayClock::PrintClock()
 {
 
     std::cout   << nodeId << "," 
-                << hlc << ",[";
+                << hlc << ","
+                << GetBitmap() << ","
+                << GetOffsets() << ",[";
 
     uint32_t bitmap = offset_bitmap.to_ulong();
-    int index = 0;
-    while(bitmap > 0)   
-    {
-        if(offset_bitmap[index] == 0)
-        {
-            std::cout << epsilon << ",";
-        }
-        else
-        {
-            std::cout << GetOffsetAtIndex(index) << ",";
-        }
-        index++;
-    }
+    // int index = 0;
+    // while(bitmap > 0)   
+    // {
+    //     if(offset_bitmap[index] == 0)
+    //     {
+    //         std::cout << epsilon << ",";
+    //     }
+    //     else
+    //     {
+    //         std::cout << GetOffsetAtIndex(index) << ",";
+    //     }
+    //     index++;
+    // }
 
     std::cout << "]," << counters << std::endl;
 

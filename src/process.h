@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <random>
+#include <algorithm>
 
 class Process
 {
@@ -17,7 +18,7 @@ public:
 
     Process() {}
 
-    Process(uint32_t nodeId);
+    Process(uint32_t pid);
     
     uint32_t GetNodeId();
 

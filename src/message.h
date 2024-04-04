@@ -17,9 +17,3 @@ public:
         recv_time = receiver_time;
     }
 };
-
-
-bool compareMessage(const Message& m1, const Message& m2)
-{
-    return m1.recv_time < m2.recv_time;
-}

@@ -2,7 +2,7 @@ CC=g++
 FLAGS= -std=c++17 -g
 
 SRC_DIR=src/
-SRC_FILES= process.cc replay-clock.cc simulator.cc
+SRC_FILES= process.cc replay-clock.cc simulator.cc run-simulation.cc
 SRC_FILES_FULL=$(addprefix $(SRC_DIR), $(SRC_FILES))
 HDR_FILES= process.h  replay-clock.h  simulator.h  message.h  replay-config.h
 HDR_FILES_FULL=$(addprefix $(SRC_DIR), $(HDR_FILES))
