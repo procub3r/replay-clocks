@@ -14,7 +14,7 @@
 uint32_t 
 ReplayClock::GetOffsetSize()
 {
-    return ((offset_bitmap.count() * MAX_OFFSET_SIZE) + 1) / 8;
+    return ((offset_bitmap.count() * MAX_OFFSET_SIZE) + 1);
 }
 
 uint32_t 
@@ -41,13 +41,13 @@ ReplayClock::GetMaxOffset()
 uint32_t 
 ReplayClock::GetCounterSize()
 {
-    return (log2(counters) + 1) / 8;
+    return (log2(counters) + 1);
 }
 
 uint32_t 
 ReplayClock::GetClockSize()
 {
-    return GetOffsetSize() + GetCounterSize() + ((log2(hlc) + 1) / 8);
+    return GetOffsetSize() + GetCounterSize() + ((log2(hlc) + 1));
 }
 
 void 
@@ -56,8 +56,6 @@ ReplayClock::SendLocal(uint32_t node_hlc)
 
     // std::cout << "--------------------------SEND--------------------------" << std::endl;
     // PrintClock();
-
-    std::cout << node_hlc << "," << hlc << std::endl;
 
     uint32_t new_hlc = std::max(hlc, node_hlc);
     uint32_t new_offset = new_hlc - node_hlc;
@@ -126,15 +124,15 @@ void
 ReplayClock::Recv(ReplayClock m_ReplayClock, uint32_t node_hlc)
 {
 
-    std::cout << "--------------------------RECV--------------------------" << std::endl;
+    // std::cout << "--------------------------RECV--------------------------" << std::endl;
 
-    std::cout << "--------------------------NODE CLOCK--------------------------" << std::endl;
+    // std::cout << "--------------------------NODE CLOCK--------------------------" << std::endl;
 
-    PrintClock();
+    // PrintClock();
 
-    std::cout << "--------------------------MESSAGE CLOCK--------------------------" << std::endl;
+    // std::cout << "--------------------------MESSAGE CLOCK--------------------------" << std::endl;
 
-    m_ReplayClock.PrintClock();
+    // m_ReplayClock.PrintClock();
 
     uint32_t new_hlc = std::max(hlc, m_ReplayClock.hlc);
     new_hlc = std::max(new_hlc, node_hlc);
@@ -144,15 +142,15 @@ ReplayClock::Recv(ReplayClock m_ReplayClock, uint32_t node_hlc)
 
     a.Shift(new_hlc);
 
-    std::cout << "--------------------------A SHIFTED CLOCK--------------------------" << std::endl;
+    // std::cout << "--------------------------A SHIFTED CLOCK--------------------------" << std::endl;
 
-    a.PrintClock();
+    // a.PrintClock();
 
-    b.Shift(new_hlc);
+    // b.Shift(new_hlc);
 
-    std::cout << "--------------------------B SHIFTED CLOCK--------------------------" << std::endl;
+    // std::cout << "--------------------------B SHIFTED CLOCK--------------------------" << std::endl;
 
-    b.PrintClock();
+    // b.PrintClock();
 
     a.MergeSameEpoch(b);
 

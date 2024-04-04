@@ -32,4 +32,6 @@ public:
 
     void Tick(uint64_t globalTime);
 
+    void PrintStatistics();
+
 };

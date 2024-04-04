@@ -24,8 +24,6 @@ ReplayClock Process::GetReplayClock()
 
 uint64_t Process::GetNodeLC()
 {
-
-    std::cout << "Logical clock of process " << nodeId << ": " << m_lc << " = " << m_lc / INTERVAL << std::endl;
     return m_lc / INTERVAL;
 }
 
@@ -37,6 +35,10 @@ Message Process::Send(uint64_t recv_time)
         m_rc,
         recv_time
     );
+
+    // Print data
+    PrintStatistics();
+
     return m;
 }
 
@@ -57,6 +59,9 @@ void Process::Recv()
         {
             m_rc.Recv(msg_queue[message].m_rc, GetNodeLC());
 
+            // Print data
+            PrintStatistics();
+
             // Erase the message from the queue
             msg_queue.erase(msg_queue.begin() + message);
         }
@@ -70,4 +75,18 @@ void Process::Tick(uint64_t globalTime)
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, (globalTime + (EPSILON*INTERVAL) - m_lc) - 1);
     m_lc += dis(gen);
+}
+
+void Process::PrintStatistics()
+{
+    std::cout 
+    << nodeId << ","
+    << m_rc.GetHLC() << ","
+    << m_rc.GetBitmap() << ","
+    << m_rc.GetOffsets() << ","
+    << m_rc.GetCounters() << ","
+    << m_rc.GetOffsetSize() << ","
+    << m_rc.GetCounterSize() << ","
+    << m_rc.GetClockSize()
+    << std::endl;
 }
