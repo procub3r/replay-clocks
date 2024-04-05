@@ -87,6 +87,12 @@ void Process::PrintStatistics()
     << m_rc.GetCounters() << ","
     << m_rc.GetOffsetSize() << ","
     << m_rc.GetCounterSize() << ","
-    << m_rc.GetClockSize()
+    << m_rc.GetClockSize() << ","
+    << EPSILON << ","
+    << INTERVAL << "," 
+    << DELTA << "," 
+    << ALPHA << ","
+    << MAX_OFFSET_SIZE << ","
+    << NUM_PROCS 
     << std::endl;
 }

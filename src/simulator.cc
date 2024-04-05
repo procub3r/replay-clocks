@@ -22,9 +22,11 @@ Simulator::Simulator()
 */
 void 
 Simulator::Start()
-{   
+{
 
-    while(true)
+    std::cout << "NODEID,HLC,BITMAP,OFFSETS,COUNTERS,OFFSET_SIZE,COUNTER_SIZE,CLOCK_SIZE,EPSILON,INTERVAL,DELTA,ALPHA,MAX_OFFSET_SIZE" << std::endl;   
+
+    while(globalTime < 5e6)
     {
         globalTime ++;
 
@@ -41,7 +43,7 @@ Simulator::Start()
             uint32_t receiver_index = dis(gen);
 
             // Create a message on the sender
-            Message m = processes[sender_index].Send(microseconds + DELTA);
+            Message m = processes[sender_index].Send(globalTime + DELTA);
 
             // Add message m to the queue of the receiver
             processes[receiver_index].msg_queue.push_back(m);
@@ -53,8 +55,8 @@ Simulator::Start()
         // On all processes, receive any outstanding messages
         for (uint32_t process = 0; process < NUM_PROCS; ++ process)
         {
-            processes[process].Recv();
             processes[process].Tick(globalTime);
+            processes[process].Recv();
         }
 
     }
