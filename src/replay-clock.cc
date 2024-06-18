@@ -1,6 +1,5 @@
 #include "replay-clock.h"
 
-#include <vector>
 #include <iostream>
 #include <math.h>
 #include <algorithm>

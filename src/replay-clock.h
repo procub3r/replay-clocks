@@ -3,11 +3,10 @@
 
 #include "replay-config.h"
 
-#include <vector>
-#include <iostream>
 #include <bitset>
 #include <sstream>
 #include <string>
+#include <cstdint>
 
 class ReplayClock
 {

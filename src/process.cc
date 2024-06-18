@@ -1,3 +1,6 @@
+#include <random>
+#include <iostream>
+#include <algorithm>
 #include "process.h"
 
 Process::Process(uint32_t pid) 

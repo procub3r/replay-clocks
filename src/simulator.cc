@@ -1,3 +1,5 @@
+#include <random>
+#include <iostream>
 #include "simulator.h"
 
 Simulator::Simulator() 

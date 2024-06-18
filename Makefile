@@ -1,16 +1,13 @@
-CC=g++
-FLAGS= -std=c++17 -g
+CC := g++
+FLAGS := -Isrc/ -std=c++17 -ggdb
 
-SRC_DIR=src/
-SRC_FILES= process.cc replay-clock.cc simulator.cc run-simulation.cc
-SRC_FILES_FULL=$(addprefix $(SRC_DIR), $(SRC_FILES))
-HDR_FILES= process.h  replay-clock.h  simulator.h  message.h  replay-config.h
-HDR_FILES_FULL=$(addprefix $(SRC_DIR), $(HDR_FILES))
+SOURCE := $(shell find src/ -type f -name "*.cc")
+INCLUDE := $(shell find src/ -type f -name "*.h")
+TARGET := rc_run
 
-all: rc_run
+$(TARGET): $(INCLUDE) $(SOURCE)
+	$(CC) $(FLAGS) $(SOURCE) -o $@
 
-rc_run: $(HDR_FILES_FULL) $(SRC_FILES_FULL)
-	$(CC) $(FLAGS) $(SRC_FILES_FULL) -o rc_run
-
+.PHONY: clean
 clean:
-	rm rc_run
+	rm $(TARGET)

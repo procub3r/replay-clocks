@@ -50,3 +50,5 @@ data/
 Notebooks/
 *.csv
 .vscode/
+.cache/
+compile_commands.json
