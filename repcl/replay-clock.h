@@ -1,12 +1,18 @@
 #ifndef REPCL_H
 #define REPCL_H
 
-#include "replay-config.h"
-
 #include <bitset>
 #include <sstream>
 #include <string>
 #include <cstdint>
+
+#define REPCL_CONFIG_H
+#define NUM_PROCS 32
+#define EPSILON 100
+#define INTERVAL 10
+#define ALPHA 20
+#define DELTA 1
+#define MAX_OFFSET_SIZE 7
 
 class ReplayClock
 {

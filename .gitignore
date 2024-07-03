@@ -51,4 +51,5 @@ Notebooks/
 *.csv
 .vscode/
 .cache/
+.vscode/
 compile_commands.json
